@@ -40,17 +40,12 @@ body[data-theme="classroom"]{background-image:url("image/class.png")!important;b
 body[data-theme="sunset"]{background-image:url("image/sea.png")!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;background-attachment:fixed!important}
 body[data-theme]:not([data-theme="custom"])::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg,#06152b22,#06152b15);z-index:-1}
 </style>
-<style id="native-background-resolution-fix">
-/* Display the six embedded 1152px-wide illustrations at no more than their native width.
-   A non-cover background may leave intentional side margins on large screens. */
-body{background-color:#b7e4e6;background-size:min(100vw, 1152px) auto!important;background-position:center top!important;background-repeat:no-repeat!important}
-body[data-theme="ocean"],body[data-theme="forest"],body[data-theme="space"],body[data-theme="candy"],body[data-theme="classroom"],body[data-theme="sunset"]{background-size:min(100vw, 1152px) auto!important;background-position:center top!important;background-repeat:no-repeat!important}
-body[data-theme="forest"]{background-color:#83b98b}
-body[data-theme="space"]{background-color:#101d46}
-body[data-theme="candy"]{background-color:#f8c6df}
-body[data-theme="classroom"]{background-color:#a9d9dc}
-body[data-theme="sunset"]{background-color:#f2b5a2}
-body[data-theme="custom"]{background-size:cover!important}
+<style id="fullscreen-background-fix">
+/* Full-viewport external backgrounds; keep game UI constrained and centered. */
+html { min-height:100%; }
+body { min-height:100vh; background-size:cover!important; background-position:center center!important; background-repeat:no-repeat!important; background-attachment:fixed!important; }
+body[data-theme="ocean"],body[data-theme="forest"],body[data-theme="space"],body[data-theme="candy"],body[data-theme="classroom"],body[data-theme="sunset"],body[data-theme="custom"] { background-size:cover!important; background-position:center center!important; background-repeat:no-repeat!important; background-attachment:fixed!important; }
+@media (max-width:700px) { body { background-attachment:scroll!important; } }
 </style>
 </head><body><header><h1>🌿 葉子教室賓果</h1><p>越南語詞彙・海星貝殼・五連線挑戰</p></header><nav><button class="active" data-page="student">⭐ 學生賓果</button><button data-page="teacher">🎲 老師抽籤</button></nav><div class="theme-picker"><label for="themeSelect">🎨 背景風格</label><select id="themeSelect" aria-label="切換背景風格"><option value="ocean">🐠 海底珊瑚礁（原版）</option><option value="forest">🌳 童話森林</option><option value="space">🚀 星空宇宙</option><option value="candy">🍬 糖果夢幻</option><option value="classroom">🏫 清新教室</option><option value="sunset">🌅 海邊夕陽</option><option value="custom">🖼️ 自訂圖片</option></select><label class="theme-upload" for="themeImage">📷 上傳背景圖</label><input type="file" id="themeImage" accept="image/*"><button type="button" id="themeReset" class="secondary">還原海洋</button></div>
 <section id="student" class="page active"><div class="layout"><aside class="panel"><h2>⚙️ 賓果設定</h2><label><input type="radio" name="mode" value="numbers" checked style="width:auto"> 數字模式</label>　<label><input type="radio" name="mode" value="words" style="width:auto"> 自訂詞彙</label><div id="numberSettings"><p class="hint">數字範圍（至少包含 25 個數字）</p><div class="row"><input id="min" type="number" value="1"><input id="max" type="number" value="30"></div></div><div id="wordSettings" class="hidden"><p class="hint">按「匯入詞彙」開啟 Google 試算表，自己複製詞彙，再貼到下方（至少 25 個）</p><textarea id="studentWords" placeholder="每行一個詞彙，也支援逗號、頓號分隔"></textarea><a class="cloud-import" href="https://docs.google.com/spreadsheets/d/1PwzOP46SnYB0DeCAbmDevsSH0dUXOON75b_xZPPydKQ/edit?usp=sharing" target="_blank" rel="noopener noreferrer">📚 匯入詞彙 ↗</a></div><div class="row"><button id="generate">🔀 重新洗牌／產生賓果卡</button></div><div class="row"><button class="secondary" id="clear">清除棋子</button></div><div id="studentStatus" class="status"></div><p class="hint">老師在講台抽籤；學生聽到詞彙後，點擊自己的對應格子放置棋子。</p></aside><main><div class="board" id="board"></div><p class="banner">👑 橫向、直向、斜向連續 5 格就獲勝！</p></main><aside class="panel"><h2>🐚 選擇棋子</h2><div class="pieces"><div class="choice on" data-piece="⭐"><span class="emoji">⭐</span>海星</div><div class="choice" data-piece="🐚"><span class="emoji">🐚</span>貝殼</div></div><p class="hint">點格子放棋子，再點一次即可取回。每位學生的賓果卡會隨機排列。</p><p>已放置：<strong id="placed">0</strong> / 25</p><div class="notice">💡 詞彙由玩家自行從 Google 試算表複製貼上，不會自動同步。</div></aside></div></section>
